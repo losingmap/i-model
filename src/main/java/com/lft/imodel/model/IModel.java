@@ -1,14 +1,10 @@
 package com.lft.imodel.model;
 
 
-import com.lft.imodel.entity.CreditUser;
 import com.lft.imodel.exception.CustomFailureException;
-import com.lft.imodel.exception.ValidationFailureException;
 import com.lft.imodel.exception.ViewChangeException;
-import com.lft.imodel.handler.ValidationFailureHandler;
 import com.lft.imodel.handler.CustomFailureHandler;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.lft.imodel.handler.ValidationFailureHandler;
 
 import java.util.Set;
 
@@ -65,16 +61,6 @@ public interface IModel {
     void forwardTo(String viewName) throws ViewChangeException;
 
     String currentPath();
-
-    default Object user() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getPrincipal().equals("anonymousUser") ? null : ((CreditUser) authentication.getPrincipal()).getUser();
-    }
-
-    default void user(Object user) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ((CreditUser) authentication.getPrincipal()).setUser(user);
-    }
 
     void invalidCallback(ValidationFailureHandler callback);
 
